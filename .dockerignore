@@ -1,0 +1,7 @@
+.git
+README.md
+docker-compose.yml
+prometheus.yml
+kubernetes/
+*.log
+.DS_Store
