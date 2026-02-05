@@ -57,4 +57,4 @@ jobs:
 
     steps:
       - name: Checkout code
-        runs: echo "Deploying to Kubernetes cluster"
+        run: echo "Deploying to Kubernetes cluster"
