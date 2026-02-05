@@ -20,3 +20,13 @@ A simple Go web server dockerized with Docker Compose, including Prometheus and 
 
 - If port 3002 is in use, change the port mapping in docker-compose.yml.
 - Ensure Docker daemon is running.
+
+
+## Docker Registry Secret
+   ```bash
+      kubectl create secret docker-registry regcred \
+      --docker-server=docker.io \
+      --docker-username=<your-username> \
+      --docker-password=<your-access-token> \
+      --docker-email=<your-email>
+   ```
