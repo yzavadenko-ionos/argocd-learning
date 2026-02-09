@@ -12,12 +12,12 @@ RUN CGO_ENABLED=0 GOOS=linux go build -o main .
 
 
 # Final stage
-FROM alpine:latest
+FROM scratch
 
 WORKDIR /root/
 
 COPY --from=builder /app/main .
 
-RUN chmod +x ./main
+EXPOSE 3002
 
 CMD ["./main"]

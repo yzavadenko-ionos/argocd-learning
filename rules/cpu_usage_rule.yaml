@@ -1,0 +1,11 @@
+groups:
+- name: cpu-alerts
+  rules:
+  - alert: HighCpuUsage
+    expr: cpu_usage > 0.8
+    for: 1m
+    labels:
+      severity: warning
+    annotations:
+      summary: "High CPU usage detected on {{ $labels.instance }}"
+      description: "CPU usage is above 80% for more than 1 minute on instance"
