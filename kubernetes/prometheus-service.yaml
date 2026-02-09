@@ -12,3 +12,6 @@ spec:
     - port: 9090
       targetPort: 9090
       nodePort: 30000 # Used for external access to the service on this port of the node
+
+
+# http://172.19.0.4:30000
