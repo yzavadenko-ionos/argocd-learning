@@ -8,7 +8,7 @@ receivers:
           [{{ .Status | toUpper }}] {{ .CommonLabels.alertname }} 
           {{ .CommonAnnotations.summary }}
         send_resolved: true
-        api_url: ${SLACK_WEBHOOK_URL}
+        api_url_file: https://hooks.slack.com/services/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
 route:
   receiver: 'slack-notifications'
   group_wait: 30s

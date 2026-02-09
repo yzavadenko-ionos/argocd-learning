@@ -16,12 +16,12 @@ spec:
         environment: development
         tier: backend
     spec:
-      # Define Prometheus and AlertManager containers
       containers:
-        # Prometheus container
+      # ------------------------
+      # Prometheus container
+      # ------------------------
       - name: prometheus-server
         image: prom/prometheus:latest
-        # Commands to run Prometheus with the specified configuration and data storage paths
         args:
         - '--config.file=/etc/prometheus/prometheus.yaml'
         - '--storage.tsdb.path=/prometheus'
@@ -37,27 +37,24 @@ spec:
           mountPath: /etc/prometheus/rules
         - name: prometheus-data
           mountPath: /prometheus
-        
-        # AlertManager container
+
+      # ------------------------
+      # Alertmanager container
+      # ------------------------
       - name: alertmanager
         image: prom/alertmanager:latest
-        # Commands to run AlertManager with the specified configuration path
-        args:
-        - '--config.file=/etc/alertmanager/alertmanager.yaml'
         ports:
         - containerPort: 9093
-        env:
-        - name: SLACK_WEBHOOK_URL
-          valueFrom:
-            secretKeyRef:
-              name: alertmanager-secrets
-              key: SLACK_WEBHOOK_URL
         volumeMounts:
         - name: alertmanager-config
           mountPath: /etc/alertmanager/alertmanager.yaml
           subPath: alertmanager.yaml
+        args:
+        - '--config.file=/etc/alertmanager/alertmanager.yaml'
 
-      # Define volumes for Prometheus and AlertManager configurations and data using Clusterwide ConfigMaps and Persistent Volume Claims
+      # ------------------------
+      # Volumes
+      # ------------------------
       volumes:
       - name: prometheus-config
         configMap:
@@ -69,11 +66,9 @@ spec:
         configMap:
           name: alertmanager-config
 
-  # Create a Persistent Volume Claim for Prometheus data storage
-  # This ensures that Prometheus data is persisted across pod restarts and can be accessed by the Prometheus container.
-
-  # If your StatefulSet pod (prometheus-server-0) dies and is rescheduled, Kubernetes must place it on the same node where the PV is available.
-  # If there’s no node affinity, and the scheduler picks a different node, the pod cannot mount the volume, so it will stay pending until the original node becomes available.
+  # ------------------------
+  # Persistent storage
+  # ------------------------
   volumeClaimTemplates:
   - metadata:
       name: prometheus-data
