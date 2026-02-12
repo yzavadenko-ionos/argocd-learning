@@ -36,6 +36,8 @@ func init() {
 	// Register metric with Prometheus
 	prometheus.MustRegister(httpRequestsTotal)
 	prometheus.MustRegister(cpuUsage)
+
+	cpuUsage.WithLabelValues("init", "init").Set(0.9)
 }
 
 func updateRequestCount(w http.ResponseWriter, r *http.Request) {
