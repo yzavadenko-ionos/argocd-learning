@@ -9,7 +9,7 @@ permissions:
   
 jobs:
 
-
+  # Run tests
   test:
     runs-on: ubuntu-latest
 
@@ -28,13 +28,29 @@ jobs:
       - name: Run tests
         run: go test 
 
-  build-and-push:
-    runs-on: ubuntu-latest # from scratch
+  # Build and push Docker image to Docker Hub
+  build:
+    runs-on: ubuntu-latest
     needs: test
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+
+      - name: Build Docker image
+        run: | 
+          docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/monitoring:latest .
+          docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/monitoring:${{ github.sha }} .
+
+        # DevSec: Use a specific version of the base image to avoid vulnerabilities
+        # and ensure reproducible builds
+      - name: Run Trivy vulnerability scanner
+        uses: aquasecurity/trivy-action@0.33.1
+        with:
+          image-ref: ${{ secrets.DOCKERHUB_USERNAME }}/monitoring:${{ github.sha }}
+          format: 'table'
+          exit-code: '1'
+          severity: 'CRITICAL,HIGH'
 
       - name: Log in to Docker Hub
         uses: docker/login-action@v3
@@ -42,19 +58,16 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      - name: Build and push Docker image
-        uses: docker/build-push-action@v5
-        with:
-          context: .
-          push: true
-          tags: |
-            ${{ secrets.DOCKERHUB_USERNAME }}/monitoring:${{ github.sha }}
-            ${{ secrets.DOCKERHUB_USERNAME }}/monitoring:latest
+      - name: Push Docker image
+        run: |
+          docker push ${{ secrets.DOCKERHUB_USERNAME }}/monitoring:latest
+          docker push ${{ secrets.DOCKERHUB_USERNAME }}/monitoring:${{ github.sha
 
   deploy:
     runs-on: ubuntu-latest
-    needs: build-and-push
+    needs: build
 
     steps:
-      - name: Checkout code
-        run: echo "Deploying to Kubernetes cluster"
+      - name: Deploy to Kubernetes
+        run: |
+          echo "Deploying to Kubernetes..."
