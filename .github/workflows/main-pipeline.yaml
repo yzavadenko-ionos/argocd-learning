@@ -49,18 +49,9 @@ jobs:
         uses: aquasecurity/trivy-action@0.33.1
         with:
           image-ref: ${{ secrets.DOCKERHUB_USERNAME }}/monitoring:${{ github.sha }}
-          format: 'spdx-json'
           exit-code: '1'
           severity: 'CRITICAL,HIGH'
-          output: 'trivy-report.json'
-          
-        # Upload the Trivy report as an artifact for later analysis 
-      - name: Upload Trivy report
-        uses: actions/upload-artifact@v4
-        with:
-          name: trivy-report
-          path: trivy-report.json
-      
+                
         # DevSec: Fail the build if any critical or high vulnerabilities are found in the Docker image
       - name: Log in to Docker Hub
         uses: docker/login-action@v3
