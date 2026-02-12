@@ -61,7 +61,7 @@ jobs:
       - name: Push Docker image
         run: |
           docker push ${{ secrets.DOCKERHUB_USERNAME }}/monitoring:latest
-          docker push ${{ secrets.DOCKERHUB_USERNAME }}/monitoring:${{ github.sha
+          docker push ${{ secrets.DOCKERHUB_USERNAME }}/monitoring:${{ github.sha }}
 
   deploy:
     runs-on: ubuntu-latest
