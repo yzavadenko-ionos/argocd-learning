@@ -7,7 +7,7 @@ alerting:
 
   alertmanagers:
     - static_configs:
-      - targets: ['alertmanager.default.svc.cluster.local:9093']
+      - targets: ['localhost:9093']
 
 
 scrape_configs:
