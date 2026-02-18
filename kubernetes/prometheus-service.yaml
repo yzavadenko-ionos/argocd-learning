@@ -18,6 +18,3 @@ spec:
       port: 9093
       targetPort: 9093
       nodePort: 30001
-
-
-# 172.19.0.4
