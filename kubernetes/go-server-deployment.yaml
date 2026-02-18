@@ -20,7 +20,7 @@ spec:
     spec:
       containers:
       - name: go-server
-        image: docker.io/yurii43/monitoring:latest
+        image: docker.io/yurii43/monitorin:latest
         imagePullPolicy: Always
         ports:
         - containerPort: 8080
