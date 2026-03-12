@@ -184,6 +184,62 @@ This reduces:
 -   Unnecessary patching
 -   Investigation time
 
+# 5. Vulnerability Exploitability eXchange (VEX)
+
+**VEX** documents explain whether a vulnerability actually affects a product.
+
+Sometimes a vulnerable component exists, but the product **is not affected**.
+
+VEX communicates this clearly.
+
+## What VEX Answers
+
+A VEX document indicates if a vulnerability:
+
+- Affects the product
+- Does NOT affect the product
+- Has been fixed
+- Is under investigation
+
+## Common VEX Status Values
+
+| Status | Meaning |
+|------|------|
+| affected | The product is vulnerable |
+| not_affected | The product is not vulnerable |
+| fixed | The vulnerability existed but is patched |
+| under_investigation | Still analyzing impact |
+
+## Key Fields in a VEX Statement
+
+- **Product**: The software being evaluated  
+  Example: `ExampleApp 2.0`
+- **Vulnerability**: Usually a CVE ID  
+  Example: `CVE-2021-44228`
+- **Status**: Affects or not  
+  Example: `not_affected`
+- **Justification**: Why the product is safe  
+  Examples: `component_not_present`, `vulnerable_code_not_in_execute_path`
+- **Impact Statement (Optional)**: Extra explanation  
+  Example: `Log4j library present but vulnerable class not used`
+
+### Example VEX (JSON)
+
+```json
+{
+  "product": "ExampleApp 2.0",
+  "vulnerability": "CVE-2021-44228",
+  "status": "not_affected",
+  "justification": "vulnerable_code_not_in_execute_path",
+  "impact_statement": "Log4j library present but vulnerable functionality not used."
+}
+
+### VEX Document Formats
+
+  - CSAF (Common Security Advisory Framework) is a JSON-based standard for publishing security advisories.
+  - CycloneDX is a SBOM standard. Embeds VEX statements directly in the SBOM. Links vulnerabilities to components in the software.
+  - SPDX (Software Package Data Exchange) is another SBOM standard widely used in open-source communities. VEX statements attach vulnerability status to SPDX component identifiers.
+
 ------------------------------------------------------------------------
 
 # Important Note About Risk
