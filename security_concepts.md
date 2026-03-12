@@ -201,6 +201,14 @@ A VEX document indicates if a vulnerability:
 - Has been fixed
 - Is under investigation
 
+
+### VEX Document Formats
+
+  1. CSAF (Common Security Advisory Framework) is a JSON-based standard for publishing security advisories.
+  2. CycloneDX is a SBOM standard. Embeds VEX statements directly in the SBOM. Links vulnerabilities to components in the software.
+  3. SPDX (Software Package Data Exchange) is another SBOM standard widely used in open-source communities. VEX statements attach vulnerability status to SPDX component identifiers.
+
+
 ## Common VEX Status Values
 
 | Status | Meaning |
@@ -223,6 +231,7 @@ A VEX document indicates if a vulnerability:
 - **Impact Statement (Optional)**: Extra explanation  
   Example: `Log4j library present but vulnerable class not used`
 
+
 ### Example VEX (JSON)
 
 ```json
@@ -233,12 +242,6 @@ A VEX document indicates if a vulnerability:
   "justification": "vulnerable_code_not_in_execute_path",
   "impact_statement": "Log4j library present but vulnerable functionality not used."
 }
-
-### VEX Document Formats
-
-  - CSAF (Common Security Advisory Framework) is a JSON-based standard for publishing security advisories.
-  - CycloneDX is a SBOM standard. Embeds VEX statements directly in the SBOM. Links vulnerabilities to components in the software.
-  - SPDX (Software Package Data Exchange) is another SBOM standard widely used in open-source communities. VEX statements attach vulnerability status to SPDX component identifiers.
 
 ------------------------------------------------------------------------
 
